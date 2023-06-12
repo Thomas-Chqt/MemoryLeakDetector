@@ -6,7 +6,7 @@
 /*   By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:04:06 by tchoquet          #+#    #+#             */
-/*   Updated: 2023/06/12 16:29:57 by tchoquet         ###   ########.fr       */
+/*   Updated: 2023/06/13 00:55:02 by tchoquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,18 @@
 /* 
 Data Structure to keep track of memory allocations
 */
-typedef struct {
+typedef struct s_mem {
     size_t address;
     size_t size;
     uint32_t line;
 	char	*file;
-} Mem;
+} t_mem;
 
-struct {
-    Mem mem[MAX_ALLOCATIONS];
+typedef struct s_data {
+    t_mem mem[MAX_ALLOCATIONS];
     size_t total_allocated_size;
     size_t total_free_size;
-} data;
+} t_data;
 
 void *_malloc(size_t size, uint32_t line, char *file);
 void _free(void *ptr, uint32_t line, char *file);

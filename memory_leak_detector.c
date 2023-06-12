@@ -3,15 +3,17 @@
 
 #include "memory_leak_detector.h"
 
+t_data	g_data;
+
 /**
  * Find a memory by its address
  * 
  * @return: Pointer to memory
 */
-Mem *find_by_address(size_t address) {
+t_mem *find_by_address(size_t address) {
     for (uint32_t i=0; i<MAX_ALLOCATIONS; i++) {
-        if (data.mem[i].address == address)
-            return &data.mem[i]; // as soon as find return
+        if (g_data.mem[i].address == address)
+            return &g_data.mem[i]; // as soon as find return
     }
 
     // otherwise return null
@@ -29,7 +31,7 @@ void insert(size_t address, size_t size, uint32_t line, char *file) {
         return;
     }
 
-    Mem *mem = find_by_address(0);
+    t_mem *mem = find_by_address(0);
     // if the return value is null we need to increase the MAX_ALLOCATIONS value
     if (mem == NULL) {
         WARN("Max allocations reached", line, file);
@@ -41,7 +43,7 @@ void insert(size_t address, size_t size, uint32_t line, char *file) {
     mem->size = size;
     mem->line = line;
 	mem->file = file;
-    data.total_allocated_size += size;
+    g_data.total_allocated_size += size;
 }
 
 /**
@@ -55,7 +57,7 @@ int erase(size_t address, uint32_t line, char *file) {
         return -1;
     }
 
-    Mem *mem = find_by_address(address);
+    t_mem *mem = find_by_address(address);
     // if the address is not found we assume it is already deleted
     if (mem == NULL) {
         WARN("Double free detected", line, file);
@@ -64,21 +66,21 @@ int erase(size_t address, uint32_t line, char *file) {
 
     // set address to null and update info
     mem->address = 0;
-    data.total_free_size += mem->size;
+    g_data.total_free_size += mem->size;
     return 0;
 }
 
 void print_report() {
     printf("\nLeak Summary\n");
-    printf("Total Memory allocated %lu bytes\n", data.total_allocated_size);
-    printf("Total Memory freed     %lu bytes\n", data.total_free_size);
-    printf("Memory Leaked          %lu bytes\n\n", data.total_allocated_size - data.total_free_size);
+    printf("Total Memory allocated %lu bytes\n", g_data.total_allocated_size);
+    printf("Total Memory freed     %lu bytes\n", g_data.total_free_size);
+    printf("Memory Leaked          %lu bytes\n\n", g_data.total_allocated_size - g_data.total_free_size);
 
-    if (data.total_free_size != data.total_allocated_size) {
+    if (g_data.total_free_size != g_data.total_allocated_size) {
         printf("Detailed Report\n");
         for (int i=0; i<MAX_ALLOCATIONS; i++) {
-            if (data.mem[i].address != 0) {
-                printf("Memory leak at line %d in file %s: (%lu bytes)\n", data.mem[i].line, data.mem[i].file, data.mem[i].size);
+            if (g_data.mem[i].address != 0) {
+                printf("Memory leak at line %d in file %s: (%lu bytes)\n", g_data.mem[i].line, g_data.mem[i].file, g_data.mem[i].size);
             }
         }
     }
