@@ -59,10 +59,10 @@ int erase(size_t address, uint32_t line, char *file) {
 
     t_mem *mem = find_by_address(address);
     // if the address is not found we assume it is already deleted
-    // if (mem == NULL) {
-    //     WARN("Double free detected", line, file);
-    //     return -1;
-    // }
+    if (mem == NULL) {
+        // WARN("Double free detected", line, file);
+        return -1;
+    }
 
     // set address to null and update info
     mem->address = 0;
