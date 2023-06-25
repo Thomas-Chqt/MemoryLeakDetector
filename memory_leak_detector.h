@@ -6,7 +6,7 @@
 /*   By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:04:06 by tchoquet          #+#    #+#             */
-/*   Updated: 2023/06/25 17:50:23 by tchoquet         ###   ########.fr       */
+/*   Updated: 2023/06/25 19:17:47 by tchoquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdint.h>
+# include <libft.h>
 
 # define MAX_ALLOCATIONS 100000
 # define WARN(msg, line, file) (printf("Warning %s:%d: %s\n", file, line, msg))
@@ -37,6 +38,7 @@ typedef struct s_data {
 } t_data;
 
 void *_malloc(size_t size, uint32_t line, char *file);
+void *_ft_calloc(size_t count, size_t size, uint32_t line, char *file);
 void _free(void *ptr, uint32_t line, char *file);
 void print_report();
 
