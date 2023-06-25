@@ -34,7 +34,7 @@ void insert(size_t address, size_t size, uint32_t line, char *file) {
     t_mem *mem = find_by_address(0);
     // if the return value is null we need to increase the MAX_ALLOCATIONS value
     if (mem == NULL) {
-        WARN("Max allocations reached", line, file);
+        // WARN("Max allocations reached", line, file);
         return;
     }
 
