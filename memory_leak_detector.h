@@ -6,7 +6,7 @@
 /*   By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:04:06 by tchoquet          #+#    #+#             */
-/*   Updated: 2023/06/13 00:55:02 by tchoquet         ###   ########.fr       */
+/*   Updated: 2023/06/25 17:50:23 by tchoquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <stdint.h>
 
-# define MAX_ALLOCATIONS 100
+# define MAX_ALLOCATIONS 100000
 # define WARN(msg, line, file) (printf("Warning %s:%d: %s\n", file, line, msg))
 
 /* 

@@ -53,7 +53,7 @@ void insert(size_t address, size_t size, uint32_t line, char *file) {
 */
 int erase(size_t address, uint32_t line, char *file) {
     if (address == 0) {
-        WARN("Tried to free a null ptr", line, file);
+        // WARN("Tried to free a null ptr", line, file);
         return -1;
     }
 
