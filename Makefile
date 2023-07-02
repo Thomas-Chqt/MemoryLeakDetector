@@ -6,7 +6,7 @@
 #    By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/12 16:37:33 by tchoquet          #+#    #+#              #
-#    Updated: 2023/06/25 19:19:31 by tchoquet         ###   ########.fr        #
+#    Updated: 2023/07/02 17:15:25 by tchoquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,8 @@ SRC	= ${wildcard ${SRCS_DIR}/*.c}
 
 OBJ = ${patsubst ${SRCS_DIR}%, ${BUILD_DIR}%, ${SRC:.c=.o}}
 
-CC					= gcc
-CFLAGS				=
+CC		= gcc
+CFLAGS	=
 
 NAME			= ${EXPORT_LIB_DIR}/libmemory_leak_detector.a
 EXPORT_INCLUDE	= ${EXPORT_INCLUDE_DIR}/memory_leak_detector.h
@@ -35,7 +35,7 @@ all: ${NAME} ${EXPORT_INCLUDE}
 ${NAME}: ${OBJ}
 	ar rc $@ $^
 
-${EXPORT_INCLUDE_DIR}/%.h: ${INCLUDES_DIR}/%.h | ${EXPORT_INCLUDE_DIR}
+${EXPORT_INCLUDE_DIR}/%.h: ${INCLUDES_DIR}/%.h | ${EXPORT_INCLUDE_DIR} ${EXPORT_LIB_DIR}
 	cp $< $@
 
 clean:
