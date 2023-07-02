@@ -6,7 +6,7 @@
 #    By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/12 16:37:33 by tchoquet          #+#    #+#              #
-#    Updated: 2023/07/02 17:15:25 by tchoquet         ###   ########.fr        #
+#    Updated: 2023/07/02 19:50:10 by tchoquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,10 +32,10 @@ EXPORT_INCLUDE	= ${EXPORT_INCLUDE_DIR}/memory_leak_detector.h
 
 all: ${NAME} ${EXPORT_INCLUDE}
 
-${NAME}: ${OBJ}
+${NAME}: ${OBJ} | ${EXPORT_LIB_DIR}
 	ar rc $@ $^
 
-${EXPORT_INCLUDE_DIR}/%.h: ${INCLUDES_DIR}/%.h | ${EXPORT_INCLUDE_DIR} ${EXPORT_LIB_DIR}
+${EXPORT_INCLUDE_DIR}/%.h: ${INCLUDES_DIR}/%.h | ${EXPORT_INCLUDE_DIR}
 	cp $< $@
 
 clean:
