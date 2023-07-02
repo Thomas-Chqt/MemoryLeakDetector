@@ -96,16 +96,6 @@ void *_malloc(size_t size, uint32_t line, char *file) {
     return ptr;
 }
 
-void *_ft_calloc(size_t count, size_t size, uint32_t line, char *file)
-{
-	void *ptr = ft_calloc(count, size);
-
-    // insert to memory data
-    insert((size_t)ptr, count * size, line, file);
-
-    return ptr;
-}
-
 void _free(void *ptr, uint32_t line, char *file) {
     // erase memory data
     if (erase((size_t)ptr, line, file) == 0)
