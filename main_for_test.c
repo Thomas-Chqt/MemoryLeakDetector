@@ -6,7 +6,7 @@
 /*   By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 20:15:11 by tchoquet          #+#    #+#             */
-/*   Updated: 2023/07/03 15:31:40 by tchoquet         ###   ########.fr       */
+/*   Updated: 2023/07/03 15:47:02 by tchoquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,8 @@ int main()
 {
 	void *a = malloc(100);
 	void *b = malloc(100);
+
+	free(a);
+	free(b);
 	return 0;
 }

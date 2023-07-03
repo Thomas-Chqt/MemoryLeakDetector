@@ -78,6 +78,8 @@ void	lst_delete_if(t_list **head, void (*del)(void *),
 		del(temp->data);
 		free(temp);
 	}
+	if (head == NULL || (*head) == NULL)
+		return ;
 	current = *head;
 	while (current->next != NULL)
 	{
@@ -134,6 +136,7 @@ void print_report() {
     printf("Memory Leaked          %lu bytes\n\n", g_total_alloc - g_total_free);
 
 	ft_lstclear(&allocated_mem, &print_free);
+	printf("\n");
 }
 
 void *_malloc(size_t size, uint32_t line, char *file)
