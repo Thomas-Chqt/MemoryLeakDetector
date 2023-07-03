@@ -6,7 +6,7 @@
 #    By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/12 16:37:33 by tchoquet          #+#    #+#              #
-#    Updated: 2023/07/03 16:20:06 by tchoquet         ###   ########.fr        #
+#    Updated: 2023/07/03 16:31:46 by tchoquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ DEBUG_OBJ	= ${RELEASE_OBJ:.o=_debug.o} ${patsubst ${ROOT}%, ${BUILD_DIR}%, ${DEB
 CC						= gcc
 CFLAGS					= -Wall -Wextra -Werror
 alldebug: CFLAGS		= -g
-alldebug: EXTERNAL_LIBS	= -l ft
 
 NAME			= ${EXPORT_LIB_DIR}/libmemory_leak_detector.a
 EXPORT_INCLUDE	= ${EXPORT_INCLUDE_DIR}/memory_leak_detector.h
@@ -61,7 +60,7 @@ debug: alldebug
 alldebug: ${DEBUG_EXE}
 
 ${DEBUG_EXE}: ${DEBUG_OBJ}
-	${CC} -o $@ $^ ${EXTERNAL_LIBS}
+	${CC} -o $@ $^
 
 cleandebug:
 	rm -rf ${DEBUG_OBJ}
