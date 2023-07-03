@@ -35,7 +35,7 @@ void print_report();
 # ifndef NO_REDEFINE
 
 #  define malloc(size) _malloc(size, __LINE__, __FILE__)
-#  define ft_calloc(count, size) _ft_calloc(count, size, __LINE__, __FILE__)
+// #  define ft_calloc(count, size) _ft_calloc(count, size, __LINE__, __FILE__)
 #  define free(ptr) _free(ptr)
 
 # endif // NO_REDEFINE
