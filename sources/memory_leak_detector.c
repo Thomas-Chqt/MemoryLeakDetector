@@ -7,6 +7,12 @@ t_list	*allocated_mem = NULL;
 size_t	g_total_alloc = 0;
 size_t	g_total_free = 0;
 
+void print_free(void *mem)
+{
+    printf("Memory leak at line %d in file %s: (%lu bytes)\n", ((t_mem *)mem)->line, ((t_mem *)mem)->file, ((t_mem *)mem)->size);
+	free(mem);
+}
+
 void insert(size_t address, size_t size, t_uint32 line, char *file)
 {
 	t_mem	*new_mem = malloc(sizeof(t_mem));
@@ -25,49 +31,59 @@ void insert(size_t address, size_t size, t_uint32 line, char *file)
 	g_total_alloc += size;
 }
 
-
-int erase(size_t address)
+void erase(size_t address)
 {
 	t_list	**watched = &allocated_mem;
+	t_list	*temp;
 
 	while (*watched != NULL)
 	{
 		if (((t_mem *)(*watched)->data)->address == address)
-			
-		watched = watched->next;
+		{
+			temp = *watched;
+			*watched = (*watched)->next;
+			g_total_free += ((t_mem *)(temp)->data)->size;
+			free(temp->data);
+			free(temp);
+		}
+		else
+		{
+			*watched = (*watched)->next;
+		}
 	}
-    g_total_free += 
-    return 0;
 }
 
 void print_report() {
     printf("\nLeak Summary\n");
-    printf("Total Memory allocated %lu bytes\n", g_data.total_allocated_size);
-    printf("Total Memory freed     %lu bytes\n", g_data.total_free_size);
-    printf("Memory Leaked          %lu bytes\n\n", g_data.total_allocated_size - g_data.total_free_size);
+    printf("Total Memory allocated %lu bytes\n", g_total_alloc);
+    printf("Total Memory freed     %lu bytes\n", g_total_free);
+    printf("Memory Leaked          %lu bytes\n\n", g_total_alloc - g_total_free);
 
-    if (g_data.total_free_size != g_data.total_allocated_size) {
-        printf("Detailed Report\n");
-        for (int i=0; i<MAX_ALLOCATIONS; i++) {
-            if (g_data.mem[i].address != 0) {
-                printf("Memory leak at line %d in file %s: (%lu bytes)\n", g_data.mem[i].line, g_data.mem[i].file, g_data.mem[i].size);
-            }
-        }
-    }
+	ft_lstclear(&allocated_mem, &print_free);
 }
 
 void *_malloc(size_t size, t_uint32 line, char *file)
 {
     void *ptr = malloc(size);
-	if (ptr = NULL)
-		printf("Allocation error line %d int file %d", line, file);
+	if (ptr == NULL)
+		printf("Allocation error line %d int file %s", line, file);
 	else
     	insert((size_t)ptr, size, line, file);
     return ptr;
 }
 
-void _free(void *ptr, t_uint32 line, char *file)
+void *_ft_calloc(size_t count, size_t size, t_uint32 line, char *file)
 {
-	erase((size_t)ptr, line, file);
+	void *ptr = ft_calloc(count, size);
+	if (ptr == NULL)
+		printf("Allocation error line %d int file %s", line, file);
+	else
+    	insert((size_t)ptr, size, line, file);
+    return ptr;
+}
+
+void _free(void *ptr)
+{
+	erase((size_t)ptr);
     free(ptr);
 }

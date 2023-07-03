@@ -6,12 +6,14 @@
 /*   By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:04:06 by tchoquet          #+#    #+#             */
-/*   Updated: 2023/07/02 20:33:27 by tchoquet         ###   ########.fr       */
+/*   Updated: 2023/07/03 03:06:11 by tchoquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MEMORY_LEAK_DETECTOR_H
 # define MEMORY_LEAK_DETECTOR_H
+
+# include <libc.h>
 
 # include <libft.h>
 
@@ -26,13 +28,15 @@ typedef struct s_mem
 
 
 void *_malloc(size_t size, t_uint32 line, char *file);
-void _free(void *ptr, t_uint32 line, char *file);
+void *_ft_calloc(size_t count, size_t size, t_uint32 line, char *file);
+void _free(void *ptr);
 void print_report();
 
 # ifndef NO_REDEFINE
 
 #  define malloc(size) _malloc(size, __LINE__, __FILE__)
-#  define free(ptr) _free(ptr, __LINE__, __FILE__)
+#  define ft_calloc(count, size) _ft_calloc(count, size, __LINE__, __FILE__)
+#  define free(ptr) _free(ptr)
 
 # endif // NO_REDEFINE
 
