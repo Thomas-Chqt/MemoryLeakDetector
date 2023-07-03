@@ -31,26 +31,14 @@ void insert(size_t address, size_t size, t_uint32 line, char *file)
 	g_total_alloc += size;
 }
 
-void erase(size_t address)
+t_bool adress_is_equad(void *mem, void *searched)
 {
-	t_list	**watched = &allocated_mem;
-	t_list	*temp;
-
-	while (*watched != NULL)
+	if (((t_mem *)mem)->address == (size_t)searched)
 	{
-		if (((t_mem *)(*watched)->data)->address == address)
-		{
-			temp = *watched;
-			*watched = (*watched)->next;
-			g_total_free += ((t_mem *)(temp)->data)->size;
-			free(temp->data);
-			free(temp);
-		}
-		else
-		{
-			*watched = (*watched)->next;
-		}
+		g_total_free += ((t_mem *)mem)->size;
+		return (true);
 	}
+	return (false);
 }
 
 void print_report() {
@@ -78,12 +66,12 @@ void *_ft_calloc(size_t count, size_t size, t_uint32 line, char *file)
 	if (ptr == NULL)
 		printf("Allocation error line %d int file %s", line, file);
 	else
-    	insert((size_t)ptr, size, line, file);
+    	insert((size_t)ptr, count * size, line, file);
     return ptr;
 }
 
 void _free(void *ptr)
 {
-	erase((size_t)ptr);
+	lst_delete_if(&allocated_mem, &free, &adress_is_equad, ptr);
     free(ptr);
 }

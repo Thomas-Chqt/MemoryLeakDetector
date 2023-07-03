@@ -1,0 +1,29 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build memory leak detector Debug",
+			"type": "shell",
+			"command": "make alldebug",
+			"dependsOn": "Save all"
+		},
+		{
+			"label": "Build memory leak detector Release",
+			"type": "shell",
+			"command": "make all",
+			"dependsOn": "Save all"
+		},
+		{
+			"label": "Clean memory leak detector",
+			"type": "shell",
+			"command": "make clean cleandebug && rm -rf build"
+		},
+		{
+			"label": "FClean memory leak detector",
+			"type": "shell",
+			"command": "make fclean fcleandebug && rm -rf build product"
+		}
+	]
+}
