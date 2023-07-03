@@ -3,6 +3,26 @@
 
 #include "memory_leak_detector.h"
 
+typedef enum e_bool			t_bool;
+typedef struct s_list		t_list;
+
+enum e_bool { false = 0, true = 1 };
+
+struct s_list
+{
+	void	*data;
+	t_list	*next;
+};
+
+typedef struct s_mem
+{
+    size_t		address;
+    size_t		size;
+    uint32_t	line;
+	char		*file;
+
+} t_mem;
+
 t_list	*allocated_mem = NULL;
 size_t	g_total_alloc = 0;
 size_t	g_total_free = 0;
