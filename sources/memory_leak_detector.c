@@ -97,7 +97,7 @@ void	mem_lst_delete_if(t_list **head, void (*del)(void *),
 
 void print_free(void *mem)
 {
-    printf("Memory leak at line %d in file %s: (%lu bytes)\n", ((t_mem *)mem)->line, ((t_mem *)mem)->file, ((t_mem *)mem)->size);
+    printf("Memory leak at line %d in file %s: (%lu bytes) (%p)\n", ((t_mem *)mem)->line, ((t_mem *)mem)->file, ((t_mem *)mem)->size, (void *)((t_mem *)mem)->address);
 	free(mem);
 }
 
@@ -133,8 +133,10 @@ void print_report() {
     printf("\nLeak Summary\n");
     printf("Total Memory allocated %lu bytes\n", g_total_alloc);
     printf("Total Memory freed     %lu bytes\n", g_total_free);
-    printf("Memory Leaked          %lu bytes\n\n", g_total_alloc - g_total_free);
+    printf("Memory Leaked          %lu bytes\n", g_total_alloc - g_total_free);
 
+	if(allocated_mem != NULL)
+		printf("\n");
 	mem_lstclear(&allocated_mem, &print_free);
 	printf("\n");
 }
