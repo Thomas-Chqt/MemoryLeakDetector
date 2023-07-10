@@ -4,26 +4,63 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Build memory leak detector Debug",
+			"label": "Build Debug",
 			"type": "shell",
-			"command": "make alldebug",
-			"dependsOn": "Save all"
+			"group": "build",
+			"command": "make",
+			"args": [
+				"debug"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": "$gcc",
+			"presentation": {
+				"reveal": "silent"
+			}
 		},
 		{
-			"label": "Build memory leak detector Release",
+			"label": "Build Release",
 			"type": "shell",
-			"command": "make all",
-			"dependsOn": "Save all"
+			"group": "build",
+			"command": "make",
+			"args": [
+				"all"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": "$gcc",
+			"presentation": {
+				"reveal": "silent"
+			}
 		},
 		{
-			"label": "Clean memory leak detector",
+			"label": "Clean",
 			"type": "shell",
-			"command": "make clean cleandebug && rm -rf build"
+			"command": "make",
+			"args": [
+				"clean",
+				"cleandebug",
+				"cleandebugexe",
+				"cleanbuild"
+			],
+			"presentation": {
+				"close": true
+			}
 		},
 		{
-			"label": "FClean memory leak detector",
+			"label": "FClean",
 			"type": "shell",
-			"command": "make fclean fcleandebug && rm -rf build product"
+			"command": "make",
+			"args": [
+				"fclean",
+				"fcleandebug",
+				"cleanbuild"
+			],
+			"presentation": {
+				"close": true
+			},
 		}
 	]
 }
