@@ -143,18 +143,18 @@ void print_report() {
 
 void *_malloc(size_t size, uint32_t line, char *file)
 { 
-	static t_bool first = true;
+	// static t_bool first = true;
 
-	if (first == true)
-	{
-		srand( time( NULL ) );
-		first = false;
-	}
-	if ((rand() % 101) >89)
-	{
-		printf("Malloc stoped line %d int file %s\n", line, file);
-		return (NULL);
-	}
+	// if (first == true)
+	// {
+	// 	srand( time( NULL ) );
+	// 	first = false;
+	// }
+	// if ((rand() % 101) >89)
+	// {
+	// 	printf("Malloc stoped line %d int file %s\n", line, file);
+	// 	return (NULL);
+	// }
 	void *ptr = malloc(size);
 	if (ptr == NULL)
 		printf("Allocation error line %d int file %s\n", line, file);
