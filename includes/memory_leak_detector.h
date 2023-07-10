@@ -6,7 +6,7 @@
 /*   By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:04:06 by tchoquet          #+#    #+#             */
-/*   Updated: 2023/07/03 16:29:37 by tchoquet         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:24:05 by tchoquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define MEMORY_LEAK_DETECTOR_H
 
 # include <libc.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <time.h>
 
 void *_malloc(size_t size, uint32_t line, char *file);
 void *_ft_calloc(size_t count, size_t size, uint32_t line, char *file);

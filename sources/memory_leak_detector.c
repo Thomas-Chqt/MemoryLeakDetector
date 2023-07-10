@@ -106,7 +106,7 @@ void insert(size_t address, size_t size, uint32_t line, char *file)
 	t_mem	*new_mem = malloc(sizeof(t_mem));
 	if (new_mem == NULL)
 	{
-		printf("Malloc error int leak detector");
+		printf("Malloc error in leak detector\n");
 		return ;
 	}
 	*new_mem = (t_mem){
@@ -142,10 +142,22 @@ void print_report() {
 }
 
 void *_malloc(size_t size, uint32_t line, char *file)
-{
-    void *ptr = malloc(size);
+{ 
+	static t_bool first = true;
+
+	if (first == true)
+	{
+		srand( time( NULL ) );
+		first = false;
+	}
+	if ((rand() % 101) >89)
+	{
+		printf("Malloc stoped line %d int file %s\n", line, file);
+		return (NULL);
+	}
+	void *ptr = malloc(size);
 	if (ptr == NULL)
-		printf("Allocation error line %d int file %s", line, file);
+		printf("Allocation error line %d int file %s\n", line, file);
 	else
     	insert((size_t)ptr, size, line, file);
     return ptr;

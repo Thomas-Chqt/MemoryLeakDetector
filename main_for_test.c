@@ -6,7 +6,7 @@
 /*   By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 20:15:11 by tchoquet          #+#    #+#             */
-/*   Updated: 2023/07/03 16:20:31 by tchoquet         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:28:41 by tchoquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@ static void	destructor(void)
 
 int main()
 {
-	void *a = malloc(100);
-	void *b = malloc(100);
-
-	free(a);
+	while(1)
+	{
+		void *ptr = malloc(100);
+		if (ptr == NULL)
+			exit(0);
+		free(ptr);
+		printf("No error\n");
+	}
 	return 0;
 }
