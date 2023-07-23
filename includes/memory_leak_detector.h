@@ -6,20 +6,15 @@
 /*   By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:04:06 by tchoquet          #+#    #+#             */
-/*   Updated: 2023/07/10 17:24:05 by tchoquet         ###   ########.fr       */
+/*   Updated: 2023/07/23 14:40:28 by tchoquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MEMORY_LEAK_DETECTOR_H
 # define MEMORY_LEAK_DETECTOR_H
 
-# include <libc.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <time.h>
-
-void *_malloc(size_t size, uint32_t line, char *file);
-void *_ft_calloc(size_t count, size_t size, uint32_t line, char *file);
+void *_malloc(unsigned long size, unsigned int line, char *file);
+void *_ft_calloc(unsigned long count, unsigned long size, unsigned int line, char *file);
 void _free(void *ptr);
 void print_report();
 

@@ -3,6 +3,11 @@
 
 #include "memory_leak_detector.h"
 
+# include <libc.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <time.h>
+
 typedef enum e_bool			t_bool;
 typedef struct s_list		t_list;
 
