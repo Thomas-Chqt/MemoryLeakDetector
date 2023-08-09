@@ -173,3 +173,11 @@ void _free(void *ptr)
 	mem_lst_delete_if(&allocated_mem, &free, &adress_is_equad, ptr);
     free(ptr);
 }
+
+int _fork()
+{
+	int pid = fork();
+	if (pid == 0)
+		mem_lstclear(&allocated_mem, &free);
+	return (pid);
+}

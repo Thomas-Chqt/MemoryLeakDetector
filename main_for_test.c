@@ -6,10 +6,11 @@
 /*   By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 20:15:11 by tchoquet          #+#    #+#             */
-/*   Updated: 2023/07/10 17:28:41 by tchoquet         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:58:06 by tchoquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libc.h>
 #include "memory_leak_detector.h"
 
 __attribute__((destructor))
@@ -20,13 +21,15 @@ static void	destructor(void)
 
 int main()
 {
-	while(1)
+	char	*str = malloc(123);
+	int pid = fork();
+	if (pid == 0)
 	{
-		void *ptr = malloc(100);
-		if (ptr == NULL)
-			exit(0);
-		free(ptr);
-		printf("No error\n");
+		char	*str = malloc(123);
+		printf("Hello form child\n");
 	}
-	return 0;
+	else
+	{
+		printf("Hello form Parrent\n");
+	}
 }
