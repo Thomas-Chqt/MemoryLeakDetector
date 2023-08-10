@@ -178,6 +178,10 @@ int _fork()
 {
 	int pid = fork();
 	if (pid == 0)
+	{
+		g_total_alloc = 0;
+		g_total_free = 0;
 		mem_lstclear(&allocated_mem, &free);
+	}
 	return (pid);
 }
