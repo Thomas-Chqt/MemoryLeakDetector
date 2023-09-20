@@ -4,36 +4,19 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Build Debug",
+			"label": "Build",
 			"type": "shell",
 			"group": "build",
 			"command": "make",
-			"args": [
-				"debug"
-			],
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": "$gcc",
 			"presentation": {
-				"reveal": "silent"
-			}
-		},
-		{
-			"label": "Build Release",
-			"type": "shell",
-			"group": "build",
-			"command": "make",
-			"args": [
-				"all"
-			],
-			"options": {
-				"cwd": "${workspaceFolder}"
+				"reveal": "silent",
+				"close": true,
+				"revealProblems": "onProblem"
 			},
-			"problemMatcher": "$gcc",
-			"presentation": {
-				"reveal": "silent"
-			}
 		},
 		{
 			"label": "Clean",
@@ -41,11 +24,10 @@
 			"command": "make",
 			"args": [
 				"clean",
-				"cleandebug",
-				"cleandebugexe",
-				"cleanbuild"
 			],
+			"problemMatcher": [],
 			"presentation": {
+				"reveal": "silent",
 				"close": true
 			}
 		},
@@ -55,12 +37,12 @@
 			"command": "make",
 			"args": [
 				"fclean",
-				"fcleandebug",
-				"cleanbuild"
 			],
+			"problemMatcher": [],
 			"presentation": {
+				"reveal": "silent",
 				"close": true
-			},
+			}
 		}
 	]
 }

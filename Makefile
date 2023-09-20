@@ -6,47 +6,65 @@
 #    By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/12 16:37:33 by tchoquet          #+#    #+#              #
-#    Updated: 2023/07/10 17:16:31 by tchoquet         ###   ########.fr        #
+#    Updated: 2023/09/20 23:26:58 by tchoquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-ROOT			= .
-SRCS_DIR		= ${ROOT}/sources
-INCLUDES_DIR 	= ${ROOT}/includes
-BUILD_DIR		= ${ROOT}/.build
+LIB_TYPE	= dynamic# static | dynamic
 
 EXPORT_INCLUDE_DIR	= ${MY_C_INCLUDE_PATH}
 EXPORT_LIB_DIR		= ${MY_LIBRARY_PATH}
 
-SRC		= ${wildcard ${SRCS_DIR}/*.c}
-EXE_SRC	= ${ROOT}/main_for_test.c
+ROOT				= .
+SRCS_DIR			= ${ROOT}/sources
+INCLUDES_DIR 		= ${ROOT}/includes
+BUILD_DIR			= ${ROOT}/.build
 
-RELEASE_OBJ = ${patsubst ${SRCS_DIR}%, ${BUILD_DIR}%, ${SRC:.c=.o}}
-DEBUG_OBJ	= ${RELEASE_OBJ:.o=_debug.o}
-EXE_OBJ		= ${patsubst ${ROOT}%, ${BUILD_DIR}%, ${EXE_SRC:.c=.o}}
-
-CC						= gcc
-CFLAGS					= -Wall -Wextra -Werror
-debug debugexe: CFLAGS	= -g -D MEMCHECK
-
-NAME			= ${EXPORT_LIB_DIR}/libmemory_leak_detector.a
 EXPORT_INCLUDE	= ${EXPORT_INCLUDE_DIR}/memory_leak_detector.h
-DEBUG_EXE		= ${ROOT}/Debug.out
+NAME_BASE 		= ${EXPORT_LIB_DIR}/libmemory_leak_detector
 
-vpath %.c ${ROOT} ${SRCS_DIR}
+SRC	= $(shell find ${SRCS_DIR} -type f -name '*.c')
+OBJ = $(foreach file, ${SRC:.c=.o}, ${BUILD_DIR}/$(notdir ${file}))
 
-.PHONY: all clean fclean re debug cleandebug fcleandebug redebug cleanbuild
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror
+CPPFLAGS	= -I${INCLUDES_DIR}
+
+
+ifeq (${LIB_TYPE}, static)
+    NAME = ${NAME_BASE}.a
+else ifeq (${LIB_TYPE}, dynamic) 
+    NAME = ${NAME_BASE}.dylib
+else
+    $(error Bad LIB_TYPE)
+endif
+
+
+vpath %.c ${SRCS_DIR}
+
+.PHONY: all clean fclean re
 
 
 all: ${NAME} ${EXPORT_INCLUDE}
 
-${NAME}: ${RELEASE_OBJ} | ${EXPORT_LIB_DIR}
+${NAME}: ${OBJ} | ${EXPORT_LIB_DIR}
+ifeq (${LIB_TYPE}, static)
 	@ar rc $@ $^
-	@echo "Archive created at $@."
+else
+	@gcc -dynamiclib -o $@ $^
+endif
+	@echo "Library created at $@."
+
+${BUILD_DIR}/%_debug.o ${BUILD_DIR}/%.o: %.c | ${BUILD_DIR}
+	${CC} ${CFLAGS} ${CPPFLAGS} -o $@ -c $<
+
+${EXPORT_INCLUDE_DIR}/%.h: ${INCLUDES_DIR}/%.h | ${EXPORT_INCLUDE_DIR}
+	@cp $< $@
+	@echo "Include file copied at $@."
 
 clean:
-	@rm -rf ${RELEASE_OBJ}
-	@echo "Release object files deleted."
+	@rm -rf ${BUILD_DIR}
+	@echo "build directory deleted."
 
 fclean: clean
 	@rm -rf ${NAME}
@@ -57,44 +75,7 @@ fclean: clean
 re: fclean all
 
 
-
-debug: ${DEBUG_EXE}
-
-${DEBUG_EXE}: ${DEBUG_OBJ} ${EXE_OBJ}
-	@${CC} -o $@ $^ ${EXTERNAL_LIBS}
-	@echo "Executable created at $@."
-
-cleandebug:
-	@rm -rf ${EXE_OBJ}
-	@echo "Object files for executable deleted."
-
-fcleandebug:
-	@rm -rf ${DEBUG_OBJ}
-	@echo "Debug object files deleted."
-	@rm -rf ${DEBUG_EXE}
-	@echo "${DEBUG_EXE} deleted."
-
-redebug: fcleandebug debug
-
-
-
-cleanbuild:
-	@rm -rf ${BUILD_DIR}
-	@echo "Build folder deleted."
-
-
-
-#All targets
-${BUILD_DIR}/%_debug.o ${BUILD_DIR}/%.o: %.c | ${BUILD_DIR}
-	${CC} ${CFLAGS} -o $@ -c $< -I${INCLUDES_DIR}
-
-${EXPORT_INCLUDE_DIR}/%.h: ${INCLUDES_DIR}/%.h | ${EXPORT_INCLUDE_DIR}
-	@cp $< $@
-	@echo "Include file copied at $@."
-
-
 #folders
 ${EXPORT_INCLUDE_DIR} ${EXPORT_LIB_DIR} ${BUILD_DIR}:
 	@mkdir -p $@
 	@echo "Folder $@ created."
-
