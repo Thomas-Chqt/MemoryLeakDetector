@@ -6,7 +6,7 @@
 #    By: tchoquet <tchoquet@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/12 16:37:33 by tchoquet          #+#    #+#              #
-#    Updated: 2023/09/21 13:33:11 by tchoquet         ###   ########.fr        #
+#    Updated: 2023/09/22 11:53:05 by tchoquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ OBJ = $(foreach file, ${SRC:.c=.o}, ${BUILD_DIR}/$(notdir ${file}))
 
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
-CPPFLAGS	= -I${INCLUDES_DIR} -I${MY_C_INCLUDE_PATH}
+CPPFLAGS	= -I${INCLUDES_DIR}
 LDFLAGS		=
 LDLIBS		=
 
